@@ -11,7 +11,7 @@ steps:
   displayName: Kubectl apply
   inputs:
     connectionType: Kubernetes Service Connection
-    kubernetesServiceEndpoint: aks_service_connection
+    kubernetesServiceEndpoint: movie
     namespace: default
     command: apply
     arguments: -f $(System.ArtifactsDirectory)/kubernetes.yaml
@@ -20,7 +20,7 @@ steps:
   displayName: Kubectl roleout
   inputs:
     connectionType: Kubernetes Service Connection
-    kubernetesServiceEndpoint: aks_service_connection
+    kubernetesServiceEndpoint: movie
     namespace: default
     command: rollout
     arguments: status --timeout=300s deployment/movie-deployment --namespace default
