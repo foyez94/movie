@@ -1,0 +1,12 @@
+jobs:
+
+- deployment: DeployDev
+  displayName: Deploy on Kubernetes
+  pool:
+    vmImage: ubuntu-latest
+  environment: Prod
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - template: DeployTasksOnContainer.yaml

@@ -1,0 +1,13 @@
+trigger:
+- master
+
+stages:
+- stage: Build
+  displayName: Build stage
+  jobs:
+  - template: template/BuildJobsOnContainer.yaml
+
+- stage: Deploy
+  displayName: Deploy stage
+  jobs:  
+  - template: template/DeployJobsForAKS.yaml

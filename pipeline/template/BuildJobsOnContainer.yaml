@@ -1,0 +1,30 @@
+jobs:  
+  - job: Build
+    displayName: Build job
+    pool:
+      vmImage: ubuntu-latest
+
+    steps:
+
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        command: buildAndPush
+        repository: 'MovieOnContainer' # service name on container 
+        dockerfile: 'dockerfile'
+        buildContext: 'Movie'
+        containerRegistry: any # docker registry sc
+        tags: |
+          $(Build.BuildId)
+
+    - task: CmdLine@2
+      displayName: 'insert build number to deployment file'
+      inputs:
+        script: |
+          sed -i 's/(Build.BuildId)/$(Build.BuildId)/g' Movie/pipeline/kubernetes.yaml
+
+    - task: PublishPipelineArtifact@0
+      displayName: Publish pipeline folder as artifact
+      inputs:
+        artifactName: 'kube file'
+        targetPath: 'Movie/pipeline'

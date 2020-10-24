@@ -1,0 +1,26 @@
+steps:
+
+- task: DownloadPipelineArtifact@1
+  displayName: Download kube files
+  inputs:
+    artifactName: 'kube file'
+    downloadPath: $(System.ArtifactsDirectory)
+
+
+- task: Kubernetes@1
+  displayName: Kubectl apply
+  inputs:
+    connectionType: Kubernetes Service Connection
+    kubernetesServiceEndpoint: aks_service_connection
+    namespace: default
+    command: apply
+    arguments: -f $(System.ArtifactsDirectory)/kubernetes.yaml
+
+- task: Kubernetes@1
+  displayName: Kubectl roleout
+  inputs:
+    connectionType: Kubernetes Service Connection
+    kubernetesServiceEndpoint: aks_service_connection
+    namespace: default
+    command: rollout
+    arguments: status --timeout=300s deployment/movie-deployment --namespace default
