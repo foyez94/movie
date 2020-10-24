@@ -13,7 +13,7 @@ jobs:
         repository: 'MovieOnContainer' # service name on container 
         dockerfile: 'dockerfile'
         buildContext: 'Movie'
-        containerRegistry: any # docker registry sc
+        containerRegistry: MovieACR # docker registry sc
         tags: |
           $(Build.BuildId)
 
